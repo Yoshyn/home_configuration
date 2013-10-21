@@ -1,0 +1,24 @@
+{
+    "sublimelinter": true,
+
+    "sublimelinter_executable_map":
+    {
+      // Je force l'utilisation de la dernière version de Ruby
+      // pour les vérifications
+      "ruby":      "/home/sylvestre/.rbenv/shims/ruby",
+      "ruby haml": "/home/sylvestre/.rbenv/shims/haml"
+    },
+
+    // On ajoute en temps réel une marque dans le gutter
+    // pour les lignes problématiques
+    "sublimelinter_gutter_marks": true,
+
+    // On affiche une popup des erreurs à la sauvegarde
+    "sublimelinter_popup_errors_on_save": true,
+
+    // On met les annotation en evidence
+    "sublimelinter_notes": true,
+
+    // On définit les mots à mettre en evidence
+    "annotations": ["TODO", "README", "FIXME", "OPTIMIZE"]
+}

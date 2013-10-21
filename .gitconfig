@@ -1,0 +1,20 @@
+[user]
+	name = FIXME
+  email = FIXME
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+[alias]
+  ci = commit
+  co = checkout
+  lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%an %cr)%Creset' --abbrev-commit --date=relative
+  st = status
+[core]
+  pager=cat
+[push]
+  default = tracking
+[apply]
+  whitespace = fix
+[pull]
+	rebase = true

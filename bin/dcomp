@@ -1,0 +1,55 @@
+#!/bin/bash
+#####################################################################
+# Ce script permet de decrompresser rapidement des archives.        #
+#####################################################################
+
+. lib.sh
+
+#script de decompression. S.Antoine 10/10/08
+
+if [ $# = '0' ]; then
+    echo_clr 0 31 "syntaxe $0 : erreur"
+    echo_clr 0 31 "syntaxe : dcomp.sh archive1 archive2 ..."
+    exit 1
+fi
+
+for fic in $*
+do	
+  case $fic in
+    *.tar)
+      echo_clr 0 36 "Launch tar xvf $fic"
+      OUT=$(tar xvf $fic)
+      ;;
+    *.tgz)
+      echo_clr 0 36 "Launch tar zxvf $fic"
+      OUT=$(tar zxvf $fic)
+      ;;
+    *.tar.gz)
+      echo_clr 0 36 "Launch tar zxvf $fic"
+      OUT=$(tar zxvf $fic)
+      ;;
+    *.gz)
+      echo_clr 0 36 "Launch gunzip $fic"
+      OUT=$(gunzip $fic)
+      ;;
+    *.zip)
+      echo_clr 0 36 "Launch unzip $fic"
+      OUT=$(unzip $fic)
+      ;;
+    *.rar)
+      echo_clr 0 36 "Launch unrar x $fic"
+      OUT=$fic$(unrar x $fic)
+      ;;
+    *)
+      echo_clr 0 31 "Le format de l'archive n'est pas prise en charge"    
+      exit 2
+  esac
+
+  echo_clr 0 36 "Fichier(s) cree(s) :"
+  for param in $OUT
+  do
+    echo_clr 0 36 $param
+  done
+  echo_clr 0 36 "Par decompression de $fic"
+done
+exit 0

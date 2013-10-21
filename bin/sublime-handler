@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+ 
+request=${1:23}                   # Supprime les 23 premiers caractères
+request=${request//%2F//}         # Remplace les %2F par des /
+request=${request/&line=/:}       # Remplace le &line= par :
+request=${request/&column=/:}     # Remplace le &column= par :
+sublime-text-2 $request           # lance ST2

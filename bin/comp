@@ -1,0 +1,43 @@
+#!/bin/bash
+#####################################################################
+# Ce script permet de crompresser facilement des fichiers/dossiers. #
+#####################################################################
+
+. lib.sh
+
+#date --rfc-3339=date peut simplifier la vie
+
+if [ $# -ge 2 ]; then
+    echo_clr 0 31 "syntaxe $0 : erreur"
+    echo_clr 0 31 "syntaxe : comp nbre"
+    exit 1
+fi
+
+if [ $# = 0 ]; then
+    echo_clr 0 31 "syntaxe $0 : erreur"
+    echo_clr 0 31 "syntaxe : comp nbre"
+    exit 2
+else 
+    if [ -d $1 ] || [ -f $1 ]; then
+	d=$(date | cut -d , -f 1)
+	if [ -e $1_${d// /_}.tar.gz ]; then
+	    echo_clr 2 31 "L'archive $1_${d// /_}.tar.gz existe deja."
+	    exit 3
+	else
+	    video 36
+	    if [ -f $1 ]; then
+		echo -n "Fichier archivé : "
+	    else
+		echo -n "Dossier archivé : "
+	    fi
+	    bs=$( basename $1 )
+	    tar -czvf $bs"_${d// /_}.tar.gz" $1
+	    video
+	fi
+    else
+	echo_clr 0 31 "erreur : l'argument doit etre un fichier/dossier"
+	exit 2
+    fi
+fi
+
+exit 0

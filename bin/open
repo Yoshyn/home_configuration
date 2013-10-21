@@ -1,0 +1,89 @@
+#!/bin/bash
+#####################################################################
+# Ce script permet de chercher un fichier et de l'ouvrir            #
+#####################################################################
+
+. lib.sh
+
+if [ $# -ge 2 ]; then
+    echo_clr 0 31 "$0 : erreur nb arg";
+    echo_clr 0 31 "syntaxe : open [file]"
+    return
+fi
+
+function open_switch_type
+{
+    echo_clr 0 32 "Open file : $1"
+    case $1 in
+	*".txt")
+	    gedit $1 &
+	    ;;
+	*".odt"|*".odp"|*".ppt"|*".doc"|*".pps")
+	    openoffice $1 &
+	    ;;
+	*".pdf")
+	    evince $1 &
+	    ;;
+	*".jpg"|*".png"|*".bmp")
+      eog $1 &
+      ;;
+	*".html")
+	    firefox $1 &
+	    ;;
+	*)
+	    vi $1
+    esac
+}
+
+RES_FIND=$(find $(pwd) -name "*$1*" 2>/dev/null)
+
+NBD=0
+for var in $RES_FIND
+do
+    NBD=$(expr $NBD + 1)
+done
+
+if [ $NBD -eq 0 ]
+then
+    echo_clr 0 32 " Le fichier $1 n'a pas été trouvé."
+
+elif [ $NBD -eq 1 ]
+then
+   open_switch_type "$RES_FIND"
+else
+    CPT=0
+    video 32
+    for var in $RES_FIND
+    do
+	CPT=$(expr $CPT + 1)
+	echo "  $CPT : $var"
+    done
+    CPT=$(expr $CPT + 1)
+    echo "  $CPT : Abandonner"    
+    video
+    TF=0
+    while [ $TF -eq 0 ]
+    do
+      read -p "  CHOIX > " CHOIX
+      if  [ -z "`echo $CHOIX | sed s/[0-9]*//`" ]
+      then
+	  if [ $CHOIX = $CPT ]; then	
+	      exit
+	  fi    
+	  if [ $CHOIX -ge 1 -a $CHOIX -le $NBD ] 
+	  then
+	      TF=1
+	  fi
+      fi
+    done  
+
+    CPT=0
+    for var in $RES_FIND
+    do
+	CPT=$(expr $CPT + 1)
+	if [ $CPT -eq $CHOIX ]
+	then
+	    open_switch_type "$var"
+	fi
+    done
+fi
